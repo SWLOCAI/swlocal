@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8">
+        <title>Person's information</title>
+    </head>
+    <body>
+        <h1>datas</h1>
+
+        {% for p in post_list %}
+            <h3>user id : {{ p.user_id }}</a></h3>
+            <h4>위도 : {{ p.longitude }}</h4>
+            <h4>경도 : {{ p.latitude }}</h4>
+            <p>그룹 아이디 : {{ p.group_id }}</p>
+            <hr/>
+        {% endfor %}
+
+    </body>
+</html>
