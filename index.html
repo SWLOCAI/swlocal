@@ -1,0 +1,89 @@
+<!-- Copyright (c) 2022 Ivan Teplov -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bottom Sheet</title>
+    
+
+    <!-- Utility classes for CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/@ivteplo/utilities.css@1.0.0/build/main.css">
+
+    <!-- Custom stylesheet -->
+    <link rel="stylesheet" href="main.css">
+
+    <!-- Script that makes the sheet work -->
+    <script src="main.js" defer></script>
+</head>
+
+<body class="font-system column fill items-center justify-center">
+
+    <!-- <div id="map" style="width:100%;height:auto;"></div> -->
+
+
+    <!-- Button to open a sheet -->
+    <button type="button" id="open-sheet" aria-controls="sheet">지도 마커</button>
+
+    <!-- The sheet component -->
+    <div id="sheet" class="column items-center justify-end" aria-hidden="true">
+        <!-- Dark background for the sheet -->
+        <div class="overlay"></div>
+
+        <!-- The sheet itself -->
+        <div class="contents column">
+            <!-- Sheet controls -->
+            <header class="controls">
+                <!-- The thing to drag if you want to resize the sheet -->
+                <div class="draggable-area">
+                    <div class="draggable-thumb"></div>
+                </div>
+                <!-- Button to close the sheet -->
+                <button class="close-sheet" type="button" title="Close the sheet">&times;</button>
+            </header>
+
+            <!-- Body of the sheet -->
+            <main class="body fill column">
+                <!-- <h2>Hello, World!</h2> -->
+                <div class="inner-box">
+                    <div class="inner-box-inner">
+                        <h3 class="text">
+                            경북대학교 글로벌플라자의 LocInfo
+                        </h3>
+                        <hr />
+                        <div class="congestion-info">
+                            <p class="text">
+                                <img style="width:20px ;" src="./static/magnifier.png" alt="">
+
+                                90% 혼잡해요.
+                            </p>
+                        </div>
+                        <div>
+                            <div style="float: left; margin-left: 29px;">
+                                <img class="placeimg" src="./static/profile_globalplaza.jfif" alt="">
+                            </div>
+                            <div style="float: right; margin-right: 39px;">
+                                <div class="place-info">
+                                    <p class="text">LocInfo(7)</p>
+                                </div>
+                                <div class="place-info">
+                                    <p class="text">길찾기</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text" style="overflow: hidden;">스크롤 테스트</p>
+                    </div>
+
+
+                </div>
+
+            </main>
+        </div>
+    </div>
+</body>
+
+</html>
