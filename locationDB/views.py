@@ -14,11 +14,6 @@ class PostList(ListView):
 #    return render(request, 'map_main.html', {'pro':pro})
 def map_main(request):
     userinfo=Post.objects.all()
-    pro = Post.objects.filter(group_id = 'group1')
-    return render(request, 'map_main.html', {'pro':pro, 'userinfo':userinfo})
-
-def map_user(request):
-    userinfo=Post.objects.all()
     pro = Post.objects.filter(group_id='group1')
     prodict = {}
     a = 0
@@ -31,3 +26,8 @@ def map_user(request):
 
     proJson = json.dumps(prodict)
     return render(request, 'map_main.html', {'proJson': proJson})
+
+def map_user(request):
+    userinfo=Post.objects.all()
+    return render(request, 'map_user.html')
+
