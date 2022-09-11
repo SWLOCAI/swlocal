@@ -128,7 +128,7 @@
         src="//dapi.kakao.com/v2/maps/sdk.js?appkey=817af310d51662edbc59b582c3bd021a"></script>
     <script>
 
-        var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+        var mapContainer = document.getElementById('map'), // 지도를 표시할 div
             mapOption = {
                 center: new kakao.maps.LatLng(35.88785841860048, 128.61137743682414), // 지도의 중심좌표
                 level: 1 // 지도의 확대 레벨
@@ -137,7 +137,7 @@
         // 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
         var map = new kakao.maps.Map(mapContainer, mapOption);
 
-        // HTML5의 geolocation으로 사용할 수 있는지 확인합니다 
+        // HTML5의 geolocation으로 사용할 수 있는지 확인합니다
         if (navigator.geolocation) {
 
             // GeoLocation을 이용해서 접속 위치를 얻어옵니다
@@ -180,7 +180,7 @@
                 removable: iwRemoveable
             });
 
-            // 인포윈도우를 마커위에 표시합니다 
+            // 인포윈도우를 마커위에 표시합니다
             infowindow.open(map, marker);
 
             // 지도 중심좌표를 접속위치로 변경합니다
@@ -220,14 +220,6 @@
             groupPositions.push(new kakao.maps.LatLng(parseFloat(check['lon']), parseFloat(check['lat'])));
         }
 
-        groupPositions.push(new kakao.maps.LatLng(35.888239, 128.611133));
-        document.write("groupPositions: " + groupPositions);
-        /*
-        // 그룹마커 임시 표시
-        var groupPositions = [
-            new kakao.maps.LatLng(35.888239, 128.611133),
-        ];
-        */
         var markerImageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/category.png';  // 마커이미지의 주소입니다. 스프라이트 이미지 입니다
         AEDMarkers = [], // AED 마커 객체를 가지고 있을 배열입니다
             toiletMarkers = [], // 화장실 마커 객체를 가지고 있을 배열입니다
@@ -241,7 +233,7 @@
         createExitMarkers(); // 비상구 마커를 생성하고 비상구 마커 배열에 추가합니다
         createGroupMarkers(); // 비상구 마커를 생성하고 비상구 마커 배열에 추가합니다
 
-        changeMarker('group'); // 지도에 비상구 마커가 보이도록 설정합니다    
+        changeMarker('group'); // 지도에 비상구 마커가 보이도록 설정합니다
 
 
         // 마커이미지의 주소와, 크기, 옵션으로 마커 이미지를 생성하여 리턴하는 함수입니다
@@ -386,7 +378,6 @@
                 setAEDMarkers(map);
                 setToiletMarkers(null);
                 setExitMarkers(null);
-                setGroupMarkers(map);
 
 
             } else if (type === 'toilet') { // 화장실 카테고리가 클릭됐을 때
@@ -424,8 +415,8 @@
                     groupMenu.className = 'menu_selected';
                     setGroupMarkers(map);
                 }
-                
-            
+
+
             }
         }
     </script>
