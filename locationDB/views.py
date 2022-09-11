@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import ListView
 from .models import Post
+import json
 
 
 class PostList(ListView):
@@ -8,6 +9,9 @@ class PostList(ListView):
     ordering = '-pk'
 
 
+# def map_main(request):
+#    pro = Post.objects.filter(group_id = 'group1')
+#    return render(request, 'map_main.html', {'pro':pro})
 def map_main(request):
     userinfo=Post.objects.all()
     pro = Post.objects.filter(group_id = 'group1')
@@ -15,6 +19,15 @@ def map_main(request):
 
 def map_user(request):
     userinfo=Post.objects.all()
-    pro = Post.objects.filter(group_id = 'group1')
-    return render(request, 'map_user.html', {'pro':pro, 'userinfo':userinfo})
+    pro = Post.objects.filter(group_id='group1')
+    prodict = {}
+    a = 0
+    for i in pro:
+        dic = {}
+        dic['lat'] = float(i.latitude)
+        dic['lon'] = float(i.longitude)
+        prodict[a] = dic
+        a = a + 1
 
+    proJson = json.dumps(prodict)
+    return render(request, 'map_main.html', {'proJson': proJson})
