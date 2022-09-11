@@ -68,6 +68,29 @@
         .category .ico_exit {
             background-position: -10px -72px;
         }
+
+        .group_btn {
+            position: absolute;
+            overflow: hidden;
+            top: 10px;
+            right: 10px;
+            width: 150px;
+            height: 50px;
+            z-index: 10;
+            border: 3px solid palevioletred;
+            font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+            font-size: 20px;
+            text-align: center;
+            background-color: pink;
+        }
+
+        .group_btn .menu_selected {
+            background: hotpink;
+            color: #fff;
+            border-left: 1px solid #915B2F;
+            border-right: 1px solid #915B2F;
+            margin: 0 -1px;
+        }
     </style>
 </head>
 
@@ -89,6 +112,13 @@
                 <li id="exitMenu" onclick="changeMarker('exit')">
                     <span class="ico_comm ico_exit"></span>
                     비상구
+                </li>
+            </ul>
+        </div>
+        <div class="group_btn">
+            <ul>
+                <li id="group" onclick="changeMarker('group')">
+                    그룹
                 </li>
             </ul>
         </div>
@@ -181,10 +211,12 @@
             new kakao.maps.LatLng(35.887313, 128.612054),
         ];
 
+        var groupPositions = []
+
         var markerImageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/category.png';  // 마커이미지의 주소입니다. 스프라이트 이미지 입니다
         AEDMarkers = [], // AED 마커 객체를 가지고 있을 배열입니다
-            toiletMarkers = [], // 화장실 마커 객체를 가지고 있을 배열입니다
-            exitMarkers = []; // 비상구 마커 객체를 가지고 있을 배열입니다
+        toiletMarkers = [], // 화장실 마커 객체를 가지고 있을 배열입니다
+        exitMarkers = []; // 비상구 마커 객체를 가지고 있을 배열입니다
 
 
         createAEDMarkers(); // AED 마커를 생성하고 AED 마커 배열에 추가합니다
@@ -334,6 +366,11 @@
                 setAEDMarkers(null);
                 setToiletMarkers(null);
                 setExitMarkers(map);
+            } else if (type === 'group') {
+                group.className = 'menu_selected';
+
+                setGroupMarkers(map);
+
             }
         } 
     </script>
