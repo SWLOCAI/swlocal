@@ -19,5 +19,4 @@ from django.urls import path, include
 urlpatterns = [
     path("locationDB/", include("locationDB.urls")),
     path("admin/", admin.site.urls),
-    path("map/", include("map.urls")),
 ]
