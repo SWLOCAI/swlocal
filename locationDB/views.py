@@ -9,5 +9,12 @@ class PostList(ListView):
 
 
 def map_main(request):
+    userinfo=Post.objects.all()
     pro = Post.objects.filter(group_id = 'group1')
-    return render(request, 'map_main.html', {'pro':pro})
+    return render(request, 'map_main.html', {'pro':pro, 'userinfo':userinfo})
+
+def map_user(request):
+    userinfo=Post.objects.all()
+    pro = Post.objects.filter(group_id = 'group1')
+    return render(request, 'map_user.html', {'pro':pro, 'userinfo':userinfo})
+
