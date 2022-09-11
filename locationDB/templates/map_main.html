@@ -218,17 +218,9 @@
         for (let data of Object.keys(pro)) {
             var check = pro[data]
             document.write(check['lat'], check['lon'], " \n");
-            groupPositions.push(new kakao.maps.LatLng(parseFloat(check['lat']), parseFloat(check['lon'])));
+            groupPositions.push(new kakao.maps.LatLng(parseFloat(check['lon']), parseFloat(check['lat'])));
         }
 
-        groupPositions.push(new kakao.maps.LatLng(35.888239, 128.611133));
-        document.write("groupPositions: " + groupPositions);
-        /*
-        // 그룹마커 임시 표시
-        var groupPositions = [
-            new kakao.maps.LatLng(35.888239, 128.611133),
-        ];
-        */
         var markerImageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/category.png';  // 마커이미지의 주소입니다. 스프라이트 이미지 입니다
         AEDMarkers = [], // AED 마커 객체를 가지고 있을 배열입니다
             toiletMarkers = [], // 화장실 마커 객체를 가지고 있을 배열입니다
@@ -387,7 +379,6 @@
                 setAEDMarkers(map);
                 setToiletMarkers(null);
                 setExitMarkers(null);
-                setGroupMarkers(map);
 
 
             } else if (type === 'toilet') { // 화장실 카테고리가 클릭됐을 때
