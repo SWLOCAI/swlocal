@@ -217,8 +217,7 @@
 
         for (let data of Object.keys(pro)) {
             var check = pro[data]
-            document.write(check['lat'], check['lon'], " \n");
-            groupPositions.push(new kakao.maps.LatLng(parseFloat(check['lat']), parseFloat(check['lon'])));
+            groupPositions.push(new kakao.maps.LatLng(parseFloat(check['lon']), parseFloat(check['lat'])));
         }
 
         groupPositions.push(new kakao.maps.LatLng(35.888239, 128.611133));
@@ -417,10 +416,16 @@
             } else if (type === 'group') { // 비상구 카테고리가 클릭됐을 때
 
                 // 그룹 카테고리를 선택된 스타일로 변경하고
-                groupMenu.className = 'menu_selected';
-
-                // 그룹 마커들을 지도에 표시하도록 설정합니다
-                setGroupMarkers(map);
+                if (groupMenu.className === 'menu_selected') {
+                    groupMenu.className = '';
+                    setGroupMarkers(null);
+                }
+                else {
+                    groupMenu.className = 'menu_selected';
+                    setGroupMarkers(map);
+                }
+                
+            
             }
         }
     </script>
