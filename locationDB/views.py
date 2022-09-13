@@ -13,7 +13,6 @@ class PostList(ListView):
 #    pro = Post.objects.filter(group_id = 'group1')
 #    return render(request, 'map_main.html', {'pro':pro})
 def map_main(request):
-    userinfo=Post.objects.all()
     pro = Post.objects.filter(group_id='group1')
     prodict = {}
     a = 0
@@ -23,11 +22,23 @@ def map_main(request):
         dic['lon'] = float(i.longitude)
         prodict[a] = dic
         a = a + 1
+        print(dic)
 
     proJson = json.dumps(prodict)
     return render(request, 'map_main.html', {'proJson': proJson})
 
 def map_user(request):
     userinfo=Post.objects.all()
-    return render(request, 'map_user.html')
+    info = {}
+    a = 0
+    for i in userinfo:
+        dic = {}
+        dic['lat'] = float(i.latitude)
+        dic['lon'] = float(i.longitude)
+        info[a] = dic
+        a = a + 1
+        print(dic)
+        
+    infoJson = json.dumps(info)
+    return render(request, 'map_user.html', {'infoJson': infoJson})
 

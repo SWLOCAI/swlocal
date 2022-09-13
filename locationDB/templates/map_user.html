@@ -187,134 +187,30 @@
 
       /* 마커 표시 */
 
+      var userPositions_db = new Array();
+      var info = JSON.parse("{{ infoJson|escapejs }}");
+
+      console.log(info);
+
+      for (let data of Object.keys(info)) {
+        var check = info[data];
+        userPositions_db.push(
+          new kakao.maps.LatLng(
+            parseFloat(check["lon"]),
+            parseFloat(check["lat"])
+          )
+        );
+      }
+
       // DB 정보를 표시할 좌표입니다.
-      var userPositions = [
-        new kakao.maps.LatLng(35.8841986, 128.6114361), //xxxx
-        new kakao.maps.LatLng(35.891927, 128.6090317), //wwww
-        new kakao.maps.LatLng(35.8914603, 128.6077532), //vvvv
-        new kakao.maps.LatLng(35.8922096, 128.6119705), //uuuu
-        new kakao.maps.LatLng(35.8905135, 128.6044109), //tttt
-
-        new kakao.maps.LatLng(35.8843511, 128.6111381), //ssss
-        new kakao.maps.LatLng(35.8812114, 128.610721), //rrrr
-        new kakao.maps.LatLng(35.8809699, 128.606705), //qqqq
-        new kakao.maps.LatLng(35.8898782, 128.6078324), //pppp
-        new kakao.maps.LatLng(35.8814548, 128.6062231), //oooo
-
-        new kakao.maps.LatLng(35.8894759, 128.6133952), //nnnn
-        new kakao.maps.LatLng(35.8827297, 128.6075683), //mmmm
-        new kakao.maps.LatLng(35.8816932, 128.6106855), //llll
-        new kakao.maps.LatLng(35.8887412, 128.6137504), //kkkk
-        new kakao.maps.LatLng(35.8888619, 128.5985981), //jjjj
-
-        new kakao.maps.LatLng(35.8877245, 128.6097836), //iiii
-        new kakao.maps.LatLng(35.8838514, 128.6043088), //hhhh
-        new kakao.maps.LatLng(35.8876385, 128.6195804), //gggg
-        new kakao.maps.LatLng(35.88185, 128.6003183), //ffff
-        new kakao.maps.LatLng(35.8852422, 128.6134286), //eee
-
-        new kakao.maps.LatLng(35.883333, 128.612222), //dddd
-        new kakao.maps.LatLng(35.8852395, 128.6058616), //cccc
-        new kakao.maps.LatLng(35.8856645, 128.6099271), //bbbb
-        new kakao.maps.LatLng(35.8865311, 128.6140573), //aaaa
-        new kakao.maps.LatLng(35.8875045, 128.6032682), //zz
-
-        new kakao.maps.LatLng(35.887129, 128.6039875), //yy
-        new kakao.maps.LatLng(35.8835204, 128.6134043), //xx
-        new kakao.maps.LatLng(35.8825202, 128.6070645), //ww
-        new kakao.maps.LatLng(35.8864470, 128.6050224), //vv
-        new kakao.maps.LatLng(35.8841759, 128.6134121), //uu
-
-        new kakao.maps.LatLng(35.8824129, 128.6131480), //tt
-        new kakao.maps.LatLng(35.8886220, 128.6103924), //ss
-        new kakao.maps.LatLng(35.8823888, 128.6097198), //rr
-        new kakao.maps.LatLng(35.8816810, 128.6081393), //qq
-        new kakao.maps.LatLng(35.8818015, 128.6088989), //pp
-
-        new kakao.maps.LatLng(35.8823087, 128.6094060), //oo
-        new kakao.maps.LatLng(35.8865995, 128.6155320), //nn
-        new kakao.maps.LatLng(35.8854547, 128.6154306), //mm
-        new kakao.maps.LatLng(35.8853673, 128.6159248), //ll
-        new kakao.maps.LatLng(35.8858434, 128.6114650), //kk
-
-        new kakao.maps.LatLng(35.8815220, 128.6075633), //jj
-        new kakao.maps.LatLng(35.8800203, 128.6099824), //ii
-        new kakao.maps.LatLng(35.8808376, 128.6170881), //hh
-        new kakao.maps.LatLng(35.8859154, 128.6086546), //gg
-        new kakao.maps.LatLng(35.8886163, 128.6058393), //ff
-
-        new kakao.maps.LatLng(35.8878508, 128.6123320), //ee
-        new kakao.maps.LatLng(35.8881840, 128.6113599), //dd
-        new kakao.maps.LatLng(35.8865453, 128.6096379), //cc
-        new kakao.maps.LatLng(35.8868836, 128.6083256), //bb
-        new kakao.maps.LatLng(35.8863532, 128.6070785), //aa
-
-        new kakao.maps.LatLng(35.891434, 128.6082334), //e50
-        new kakao.maps.LatLng(35.891352, 128.615899), //e49
-        new kakao.maps.LatLng(35.893482, 128.613694), //e48
-        new kakao.maps.LatLng(35.893561, 128.609202), //e47
-        new kakao.maps.LatLng(35.891433, 128.608233), //e46
-
-        new kakao.maps.LatLng(35.893085, 128.605928), //e45
-        new kakao.maps.LatLng(35.891352, 128.595899), //d44
-        new kakao.maps.LatLng(35.888245, 128.606818), //d43
-        new kakao.maps.LatLng(35.8882222, 128.605019), //d42
-        new kakao.maps.LatLng(35.893561, 128.609202), //d41
-
-        new kakao.maps.LatLng(35.891352, 128.605899), //d40
-        new kakao.maps.LatLng(35.893482, 128.603694), //c39
-        new kakao.maps.LatLng(35.891432, 128.608235), //c38
-        new kakao.maps.LatLng(35.89245, 128.606818), //c37
-        new kakao.maps.LatLng(35.893085, 128.605928), //c36
-
-        new kakao.maps.LatLng(35.8882222, 128.615019), //c35
-        new kakao.maps.LatLng(35.893561, 128.609202), //c34
-        new kakao.maps.LatLng(35.886169, 128.608013), //c33
-        new kakao.maps.LatLng(35.890426, 128.611535), //b32
-        new kakao.maps.LatLng(35.886169, 128.608013), //b31
-
-        new kakao.maps.LatLng(35.893482, 128.603694), //b30
-        new kakao.maps.LatLng(35.891352, 128.615899), //b29
-        new kakao.maps.LatLng(35.893039, 128.602426), //b28
-        new kakao.maps.LatLng(35.886169, 128.618013), //b27
-        new kakao.maps.LatLng(35.8982222, 128.605019), //b26
-
-        new kakao.maps.LatLng(35.89245, 128.606818), //a25
-        new kakao.maps.LatLng(35.893085, 128.605928), //a24
-        new kakao.maps.LatLng(35.890325, 128.611534), //a23
-        new kakao.maps.LatLng(35.886169, 128.618013), //a22
-        new kakao.maps.LatLng(35.891431, 128.608231), //a21
-
-        new kakao.maps.LatLng(35.886169, 128.618013), //a20
-        new kakao.maps.LatLng(35.893482, 128.613694), //a19
-        new kakao.maps.LatLng(35.893036, 128.612426), //a18
-        new kakao.maps.LatLng(35.893561, 128.609202), //a17
-        new kakao.maps.LatLng(35.891352, 128.605899), //a16
-
-        new kakao.maps.LatLng(35.893085, 128.605928), //a15
-        new kakao.maps.LatLng(35.890424, 128.611533), //a14
-        new kakao.maps.LatLng(35.89245, 128.606818), //a13
-        new kakao.maps.LatLng(35.891352, 128.615899), //a12
-        new kakao.maps.LatLng(35.8882222, 128.605019), //a11
-
-        new kakao.maps.LatLng(35.89143, 128.60823), //a10
-        new kakao.maps.LatLng(35.883035, 128.602425), //a9
-        new kakao.maps.LatLng(35.890427, 128.611532), //a8
-        new kakao.maps.LatLng(35.890428, 128.611531), //a7
-        new kakao.maps.LatLng(35.891234, 128.615523), //a6
-
-        new kakao.maps.LatLng(35.891132, 128.606312), //a5
-        new kakao.maps.LatLng(35.885306, 128.613705), //a4
-        new kakao.maps.LatLng(35.891132, 128.606312), //a3
-        new kakao.maps.LatLng(35.88506, 128.603705), //a2
-        new kakao.maps.LatLng(35.885039, 128.602428), //a1
-      ];
 
       var markerImageSrc =
         "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/category.png"; // 마커이미지의 주소입니다. 스프라이트 이미지 입니다
-      userMarkers = []; // 유저 위치를 가지고 있을 배열입니다.
+      (UserDbMarkers = []),
+        (UserDbMarkersImageSrc =
+          "https://cdn-icons-png.flaticon.com/512/7193/7193485.png"); // 유저 위치를 가지고 있을 배열입니다.
 
-      createUserMarkers();
+      createUserDbMarkers();
 
       // 마커이미지의 주소와, 크기, 옵션으로 마커 이미지를 생성하여 리턴하는 함수입니다
       function createMarkerImage(src, size, options) {
@@ -332,36 +228,35 @@
         return marker;
       }
 
-      function createUserMarkers() {
-        for (var i = 0; i < userPositions.length; i++) {
-          var imageSize = new kakao.maps.Size(22, 26),
-            imageOptions = {
-              spriteOrigin: new kakao.maps.Point(10, 36),
-              spriteSize: new kakao.maps.Size(36, 98),
-            };
+      // 같은 그룹의 마커를 생성하고 그룹 마커 배열에 추가하는 함수입니다
+      function createUserDbMarkers() {
+        for (var i = 0; i < userPositions_db.length; i++) {
+          var imageSize = new kakao.maps.Size(64, 69), // 마커이미지의 크기입니다
+            imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
 
           // 마커이미지와 마커를 생성합니다
           var markerImage = createMarkerImage(
-              markerImageSrc,
+              UserDbMarkersImageSrc,
               imageSize,
-              imageOptions
+              imageOption
             ),
-            marker = createMarker(userPositions[i], markerImage);
+            marker = createMarker(userPositions_db[i], markerImage);
 
-          // 생성된 마커를 user 마커 배열에 추가합니다
-          userMarkers.push(marker);
+          // 생성된 마커를 비상구 마커 배열에 추가합니다
+          UserDbMarkers.push(marker);
         }
       }
 
-      // user 마커들의 지도 표시 여부를 설정하는 함수입니다
-      function setUserMarkers(map) {
-        for (var i = 0; i < userMarkers.length; i++) {
-          userMarkers[i].setMap(map);
+      // userdb 마커들의 지도 표시 여부를 설정하는 함수입니다
+      function setUserDbMarkers(map) {
+        for (var i = 0; i < UserDbMarkers.length; i++) {
+          UserDbMarkers[i].setMap(map);
         }
       }
 
       window.onload = function () {
-        setUserMarkers(map);
+        //setUserMarkers(map);
+        setUserDbMarkers(map);
       };
     </script>
   </body>
