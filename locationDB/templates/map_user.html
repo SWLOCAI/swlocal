@@ -3,6 +3,16 @@
   <head>
     <meta charset="utf-8" />
     <title>map</title>
+
+        <!-- Utility classes for CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/@ivteplo/utilities.css@1.0.0/build/main.css">
+    <!-- Custom stylesheet -->
+    <link rel="stylesheet" href="../../locationFront/LocInfo1.css">
+    <link rel="stylesheet" href="../../locationFront/fonts.css">
+
+    <!-- Script that makes the sheet work -->
+    <script src="../../locationFront/LocInfo1.js" defer></script>
+
     <style>
       #mapwrap {
         position: relative;
@@ -120,7 +130,11 @@
           <li id="group">그룹</li>
         </ul>
       </div>
+
     </div>
+
+    
+
 
     <script
       type="text/javascript"
@@ -225,7 +239,47 @@
           image: image,
         });
 
+        
+
+        // 마커에 mouseover 이벤트와 mouseout 이벤트를 등록합니다
+        // 이벤트 리스너로는 클로저를 만들어 등록합니다 
+        // for문에서 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
+        kakao.maps.event.addListener(marker, 'click', makeOverListener(map, marker));
+
         return marker;
+      }
+
+      
+      // 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
+      function makeOverListener(map, marker) {
+        return function() {
+
+            var count = 0;
+
+            for (var i = 0; i < userPositions_db.length; i++){
+              var la_dist = userPositions_db[i]["La"] - marker.getPosition()["La"];
+              var ma_dist = userPositions_db[i]["Ma"] - marker.getPosition()["Ma"];
+              var dist = (la_dist**2 + ma_dist**2)**(1/2);
+              if(0.000006 < dist && dist < 0.002){
+                {% comment %} console.log(dist); {% endcomment %}
+                count+=1;
+              }
+            }
+
+            var infowindow = new kakao.maps.InfoWindow({
+              content: "혼잡도: "+count // 인포윈도우에 표시할 내용
+            });
+
+            infowindow.open(map, marker);
+
+        };
+      }
+
+      // 인포윈도우를 닫는 클로저를 만드는 함수입니다 
+      function makeOutListener(infowindow) {
+        return function() {
+            infowindow.close();
+        };
       }
 
       // 같은 그룹의 마커를 생성하고 그룹 마커 배열에 추가하는 함수입니다
