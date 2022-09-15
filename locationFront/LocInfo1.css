@@ -1,4 +1,3 @@
-/* Copyright (c) 2022 Ivan Teplov */
 
 * {
     margin: 0;
@@ -75,17 +74,6 @@
     visibility: hidden;
     pointer-events: none;
   }
-/*   
-  #sheet .overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: -1;
-    background: var(--overlay);
-    opacity: 0.5;
-  } */
   
   #sheet .contents {
     border-radius: 1rem 1rem 0 0;
@@ -100,11 +88,10 @@
     transition: var(--default-transitions);
     transform: translateY(0);
   
-    max-height: 40vh; /*bottom sheet의 최대 높이 조절*/
+    max-height: 30vh; 
     height: 30vh;
   
     width: 100%;
-    /*max-width: 200rem;*/
   
     box-sizing: border-box;
     padding: 1rem;
@@ -162,7 +149,6 @@
     border-radius: 70%;
   }
 
-  /*float 해제하기*/
   #sheet div::after{
     content:'';
     display: block;
