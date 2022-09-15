@@ -9,9 +9,6 @@ class PostList(ListView):
     ordering = '-pk'
 
 
-# def map_main(request):
-#    pro = Post.objects.filter(group_id = 'group1')
-#    return render(request, 'map_main.html', {'pro':pro})
 def map_main(request):
     pro = Post.objects.filter(group_id='group1')
     prodict = {}
