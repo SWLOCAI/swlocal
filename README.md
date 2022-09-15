@@ -2,12 +2,11 @@
 
 <p align="center">
   <br>
-  메인화면 들어갈 예정
-  <img src="./images/common/logo-sample.jpeg">
+  <img src="https://user-images.githubusercontent.com/72423836/190433541-4ee4c15b-a0e3-46a6-844d-6c5478bcde1a.png" width="300">
+  <img src="https://user-images.githubusercontent.com/72423836/190434125-9fe41678-6443-4a40-a6e6-bab29ded17c9.png" width="300">
+  
   <br>
 </p>
-
-목차
 
 ## 프로젝트 소개
 
