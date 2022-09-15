@@ -14,6 +14,220 @@
     <script src="../../locationFront/LocInfo1.js" defer></script>
 
     <style>
+      
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --background: #fff;
+        --foreground: #000;
+        --divider: rgba(0, 0, 0, 0.3);
+        --overlay: #888;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --background: #fff;
+          --background-bottomsheet:#6aa9f7;
+          --foreground: #fff;
+          --divider: rgba(0, 0, 0, 0.3);
+        }
+      }
+
+      html,
+      body {
+        height: 100%;
+      }
+
+      body {
+        background: var(--background);
+        color: var(--foreground);
+        
+        overflow: hidden;
+        line-height: 1.5; 
+
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      button {
+        padding: 1rem;
+        font-size: 2rem;
+        border-radius: 1rem;
+        border: 0.0625rem solid var(--divider);
+        background: var(--background-bottomsheet);
+        color: var(--foreground);
+        cursor: pointer;
+        font-family: 'Pretendard-Regular';
+      }
+
+      .place-btn{
+        
+        margin: 3px;
+        height: 10px;
+        width: 120px;
+        background-color: #c3deff;
+        
+        color: #000;
+        font-size: 15px;
+        font-family: 'Pretendard-Regular';
+      }
+
+      #sheet {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 2;
+        visibility: visible;
+        transition: opacity 0.5s, visibility 0.5s;
+      }
+
+      #sheet[aria-hidden="true"] {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+
+      #sheet .contents {
+        border-radius: 6rem 6rem 0 0;
+
+        background: var(--background-bottomsheet);
+        background: #DA8B8B;
+        position: relative;
+        overflow-y: hidden;
+
+        --default-transitions: transform 0.5s, border-radius 0.5s;
+
+        transition: var(--default-transitions);
+        transform: translateY(0);
+
+        max-height: 30vh; 
+        height: 30vh;
+
+        width: 100%;
+
+        box-sizing: border-box;
+        padding: 1rem;
+        padding-top: 3rem;
+        padding-bottom: 0;
+      }
+
+      #sheet .contents:not(.not-selectable) {
+        transition: var(--default-transitions), height 0.5s;
+      }
+
+      #sheet .contents.fullscreen {
+        border-radius: 0;
+      }
+
+      #sheet .inner-box{
+        border-radius: 4rem 4rem 0 0; 
+        background-color: white;
+        padding: 10px;    
+        width: 90%;
+        height: 100%;
+        margin: auto;
+        margin-top:20px;
+      }
+
+      #sheet .inner-box-inner{
+        padding-top:20px;
+      }
+
+      #sheet .text{
+        color: black;
+        text-align: center;
+        font-family: 'Pretendard-Regular';
+        font-size: 38px;
+      }
+      
+      #sheet hr{
+        margin-top: 15px;
+        margin-bottom: 20px;
+      }
+
+      #sheet .inner-box .congestion-info{
+        border-radius: 2em; 
+        background-color: #FFDBDB;;
+        width: 50%;
+        align-items: center;
+        padding: 5px;
+        margin: 0 auto;
+        margin-top: 15px;
+        margin-bottom: 15px;
+      }
+
+      #sheet .inner-box .place-info{
+        border-radius: 3em;
+        background-color:  #FFDBDB;;
+        width: 100%;
+        align-items: center;
+        padding: 5px;
+        margin: 0 auto;
+        margin-top: 30px;
+        margin-bottom: 20px;
+        padding-left:15px;
+        padding-right:15px;
+
+      }
+
+      #sheet .inner-box .placeimg{
+        width: 140px;
+        height: 140px;
+        border-radius: 70%;
+      }
+
+      #sheet div::after{
+        content:'';
+        display: block;
+        clear: both;
+      }
+
+      #sheet[aria-hidden="true"] .contents {
+        transform: translateY(100%);
+      }
+
+      #sheet .draggable-area {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        width: 6rem;
+        margin: auto;
+        padding: 1rem;
+        cursor: grab;
+        margin-top:15px;
+      }
+
+      #sheet .draggable-thumb {
+        width: inherit;
+        height: 0.7rem;
+        background: var(--divider);
+        border-radius: 0.5rem;
+      }
+
+      #sheet .close-sheet {
+        position: absolute;
+        right: 0;
+        top: 0;
+        border: none;
+        display: none;
+      }
+
+      #sheet .body {
+        height: 100%;
+        overflow-y: auto;
+        gap: 1rem;
+        margin-top:20px;
+      }
+
+      #group{
+        font-size: 30px;
+      }
+{% comment %}  {% endcomment %}
       #mapwrap {
         position: relative;
         overflow: hidden;
@@ -31,8 +245,8 @@
         overflow: hidden;
         top: 10px;
         left: 10px;
-        width: 150px;
-        height: 50px;
+        width: 300px;
+        height: 110px;
         z-index: 10;
         border: 1px solid black;
         font-family: "Malgun Gothic", "맑은 고딕", sans-serif;
@@ -52,27 +266,29 @@
       .category li {
         list-style: none;
         float: left;
-        width: 50px;
-        height: 45px;
+        width: 100px;
+        height: 100px;
         padding-top: 5px;
         cursor: pointer;
+        font-size: 24px;
+
       }
 
       .category .ico_comm {
         display: block;
         margin: 0 auto 2px;
-        width: 22px;
-        height: 26px;
-        background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/category.png")
-          no-repeat;
+        width: 80px;
+        height: 65px;
+        background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/category.png");
+        background-size: cover;
       }
 
       .category .ico_AED {
-        background-position: -10px 0;
+        background-position: -10px 8px;
       }
 
       .category .ico_toilet {
-        background-position: -10px -36px;
+        background-position: -10px -152px;
       }
 
       .category .ico_exit {
@@ -107,7 +323,7 @@
   <body>
     <div id="mapwrap">
       <!-- 지도가 표시될 div -->
-      <div id="map" style="width: 100%; height: 1000px"></div>
+      <div id="map" style="width: 100%; height: 90vh"></div>
       <!-- 지도 위에 표시될 마커 카테고리 -->
       <div class="category">
         <ul>
@@ -130,6 +346,197 @@
           <li id="group">그룹</li>
         </ul>
       </div>
+
+            
+      <!-- Button to open a sheet -->
+      <button type="button" id="open-sheet" aria-controls="sheet">지도 마커</button>
+
+      <!-- The sheet component -->
+      <div id="sheet" class="column items-center justify-end" aria-hidden="true">
+          <!-- Dark background for the sheet -->
+          <div class="overlay"></div>
+
+          <!-- The sheet itself -->
+          <div id="content_back" class="contents column">
+              <!-- Sheet controls -->
+              <header class="controls">
+                  <!-- The thing to drag if you want to resize the sheet -->
+                  <div class="draggable-area">
+                      <div class="draggable-thumb"></div>
+                  </div>
+                  <!-- Button to close the sheet -->
+                  <button class="close-sheet" type="button" title="Close the sheet">&times;</button>
+              </header>
+
+              <!-- Body of the sheet -->
+              <main class="body fill column">
+                  <!-- <h2>Hello, World!</h2> -->
+                  <div class="inner-box">
+                      <div class="inner-box-inner">
+                          <h3 class="text">
+                              경북대학교 글로벌플라자의 LocInfo
+                          </h3>
+                          <hr />
+                          <div id="congestion-info" class="congestion-info">
+                              <p id="percent_text" class="text">
+                                  <img style="width:20px;" src="search.png" alt="">
+
+                                  90% 혼잡해요.
+                              </p>
+                          </div>
+                          <div>
+                              <div style="float: left; margin-left: 29px;">
+                                  <img class="placeimg" src="../static/img/90.png" alt="">
+                              </div>
+                              <div style="float: right; margin-right: 100px;">
+                                  <div id="place-info" class="place-info">
+                                      <p class="text">LocInfo(7)</p>
+                                  </div>
+                                  <div id="place-info" class="place-info">
+                                      <p class="text">길찾기</p>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      
+
+
+                  </div>
+
+              </main>
+          </div>
+      </div>
+
+      <script>
+      
+          const $ = document.querySelector.bind(document)
+
+          const openSheetButton = $("#open-sheet")
+          const sheet = $("#sheet")
+          const sheetContents = sheet.querySelector(".contents")
+          const draggableArea = sheet.querySelector(".draggable-area")
+
+          let sheetHeight // in vh
+
+          const setSheetHeight = (value) => {
+            sheetHeight = Math.max(0, Math.min(100, value))
+            sheetContents.style.height = `${sheetHeight}vh`
+
+            if (sheetHeight === 100) {
+              sheetContents.classList.add("fullscreen")
+            } else {
+              sheetContents.classList.remove("fullscreen")
+            }
+          }
+
+          const setIsSheetShown = (value) => {
+            sheet.setAttribute("aria-hidden", String(!value))
+          }
+
+          // Open the sheet when clicking the 'open sheet' button
+          openSheetButton.addEventListener("click", () => {
+            setSheetHeight(Math.min(50, 720 / window.innerHeight * 100))
+            setIsSheetShown(true)
+          })
+
+          // Hide the sheet when clicking the 'close' button
+          sheet.querySelector(".close-sheet").addEventListener("click", () => {
+            setIsSheetShown(false)
+          })
+
+          // Hide the sheet when clicking the background
+          sheet.querySelector(".overlay").addEventListener("click", () => {
+            setIsSheetShown(false)
+          })
+
+          const touchPosition = (event) =>
+            event.touches ? event.touches[0] : event
+
+          let dragPosition
+
+          const onDragStart = (event) => {
+            dragPosition = touchPosition(event).pageY
+            sheetContents.classList.add("not-selectable")
+            draggableArea.style.cursor = document.body.style.cursor = "grabbing"
+          }
+
+          const onDragMove = (event) => {
+            if (dragPosition === undefined) return
+
+            const y = touchPosition(event).pageY
+            const deltaY = dragPosition - y
+            const deltaHeight = deltaY / window.innerHeight * 100
+
+            setSheetHeight(sheetHeight + deltaHeight)
+            dragPosition = y
+          }
+
+          const onDragEnd = () => {
+            dragPosition = undefined
+            sheetContents.classList.remove("not-selectable")
+            draggableArea.style.cursor = document.body.style.cursor = ""
+
+            if (sheetHeight < 25) {
+              setIsSheetShown(false)
+            } else if (sheetHeight > 75) {
+              setSheetHeight(100)
+            } else {
+              setSheetHeight(50)
+            }
+          }
+
+          draggableArea.addEventListener("mousedown", onDragStart)
+          draggableArea.addEventListener("touchstart", onDragStart)
+
+          window.addEventListener("mousemove", onDragMove)
+          window.addEventListener("touchmove", onDragMove)
+
+          window.addEventListener("mouseup", onDragEnd)
+          window.addEventListener("touchend", onDragEnd)
+
+
+
+          //
+          const showMenu = (toggleId, navbarId, bodyId) => {
+            const toggle = document.getElementById(toggleId),
+            navbar = document.getElementById(navbarId),
+            bodypadding = document.getElementById(bodyId)
+
+            if( toggle && navbar ) {
+                toggle.addEventListener('click', ()=>{
+                    navbar.classList.toggle('expander');
+
+                    bodypadding.classList.toggle('body-pd')
+                })
+            }
+          }
+
+          showMenu('nav-toggle', 'navbar', 'body-pd')
+
+          /* LINK ACTIVE */
+          const linkColor = document.querySelectorAll('.nav__link')
+          function colorLink() {
+              linkColor.forEach(l=> l.classList.remove('active'))
+              this.classList.add('active')
+          }
+          linkColor.forEach(l=> l.addEventListener('click', colorLink))
+
+          /* COLLAPSE MENU */
+          const linkCollapse = document.getElementsByClassName('collapse__link')
+          var i
+
+          for(i=0;i<linkCollapse.length;i++) {
+            linkCollapse[i].addEventListener('click', function(){
+                const collapseMenu = this.nextElementSibling
+                collapseMenu.classList.toggle('showCollapse')
+
+                const rotate = collapseMenu.previousElementSibling
+                rotate.classList.toggle('rotate')
+            });
+          }
+
+      </script>
+
 
     </div>
 
@@ -239,13 +646,11 @@
           image: image,
         });
 
-        
-
         // 마커에 mouseover 이벤트와 mouseout 이벤트를 등록합니다
         // 이벤트 리스너로는 클로저를 만들어 등록합니다 
         // for문에서 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
         kakao.maps.event.addListener(marker, 'click', makeOverListener(map, marker));
-
+        
         return marker;
       }
 
@@ -253,7 +658,7 @@
       // 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
       function makeOverListener(map, marker) {
         return function() {
-
+            document.getElementById('open-sheet').click();
             var count = 0;
 
             for (var i = 0; i < userPositions_db.length; i++){
@@ -264,6 +669,28 @@
                 {% comment %} console.log(dist); {% endcomment %}
                 count+=1;
               }
+            }
+
+            if(count >=7 ){
+              document.getElementById("percent_text").innerHTML = "90% 혼잡해요";
+              document.getElementById("content_back").style.backgroundColor = "#DA8B8B";
+              document.getElementById("congestion-info").style.backgroundColor = "#FFDBDB";
+              document.querySelectorAll("#place-info")[0].style.backgroundColor = "#FFDBDB";
+              document.querySelectorAll("#place-info")[1].style.backgroundColor = "#FFDBDB";
+
+            }else if( 4 <= count && count < 7){
+              document.getElementById("percent_text").innerHTML = "60% 혼잡해요";
+              document.getElementById("content_back").style.backgroundColor = "#FFAF36";
+              document.getElementById("congestion-info").style.backgroundColor = "#FFEEDB";
+              document.querySelectorAll("#place-info")[0].style.backgroundColor = "#FFEEDB";
+              document.querySelectorAll("#place-info")[1].style.backgroundColor = "#FFEEDB";
+            }else{
+              document.getElementById("percent_text").innerHTML = "30% 혼잡해요";
+              document.getElementById("content_back").style.backgroundColor = "#199C36";
+              document.getElementById("congestion-info").style.backgroundColor = "#A1E0AF";
+              document.querySelectorAll("#place-info")[0].style.backgroundColor = "#A1E0AF";
+              document.querySelectorAll("#place-info")[1].style.backgroundColor = "#A1E0AF";
+              
             }
 
             var infowindow = new kakao.maps.InfoWindow({
@@ -285,7 +712,7 @@
       // 같은 그룹의 마커를 생성하고 그룹 마커 배열에 추가하는 함수입니다
       function createUserDbMarkers() {
         for (var i = 0; i < userPositions_db.length; i++) {
-          var imageSize = new kakao.maps.Size(34, 39), // 마커이미지의 크기입니다
+          var imageSize = new kakao.maps.Size(100, 100), // 마커이미지의 크기입니다
             imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
 
           // 마커이미지와 마커를 생성합니다
