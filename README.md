@@ -45,7 +45,7 @@
 
 
 ### 기능 2
-![image](https://user-images.githubusercontent.com/69004675/190439738-bd2a52f8-d39a-47ea-b0f7-b5b1df2e7dfa.png)
+<img src="(https://user-images.githubusercontent.com/69004675/190439738-bd2a52f8-d39a-47ea-b0f7-b5b1df2e7dfa.png" width="300">
 
 비상구 / 화장실 / AED 자동제세동기 등의 위치를 안내함.   
 왼쪽 위 세가지 버튼을 통해 각각의 시설의 위치를 확인할 수 있음.
